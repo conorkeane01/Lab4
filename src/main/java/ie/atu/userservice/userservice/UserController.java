@@ -12,21 +12,18 @@ import java.util.Map;
 @RestController
 public class UserController {
     private RegistrationServiceClient registrationServiceClient;
-    private NotificationServiceClient notificationServiceClient;
 
     @Autowired
-    public UserController(RegistrationServiceClient registrationServiceClient, NotificationServiceClient notificationServiceClient) {
+    public UserController(RegistrationServiceClient registrationServiceClient) {
         this.registrationServiceClient = registrationServiceClient;
-        this.notificationServiceClient = notificationServiceClient;
     }
 
 
     @PostMapping("/confirm-and-register")
     public Map<String, String> confirmAndRegister(@RequestBody UserDetails userDetails) {
         String confirm = registrationServiceClient.someDetails(userDetails);
-        String notification = notificationServiceClient.someDetails(userDetails);
         Map<String, String>responseMessage = new HashMap<>();
-        responseMessage.put("Message", confirm + "," + notification);
+        responseMessage.put("Message", confirm);
         //responseMessage.put("Message", notification);
         return responseMessage;
     }
